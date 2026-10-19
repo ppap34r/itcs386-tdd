@@ -1,6 +1,7 @@
 # Part A1: The first failing test
 # from kitchen import Quantity
 # from kitchen import Quantity, grams, ounces
+# from kitchen import Quantity, grams, ounces, Converter
 from kitchen import Quantity, grams, ounces, Converter
 
 # def test_multiplication():
@@ -82,3 +83,19 @@ def test_simple_addition():
     total = grams(200).plus(grams(300))
     converter = Converter()
     assert converter.reduce(total, "g") == grams(500)
+
+# A7: Mixed units and conversion rates
+def test_reduce_same_unit_needs_no_rate():
+    converter = Converter()
+    assert converter.reduce(grams(500), "g") == grams(500)
+
+def test_mixed_addition():
+    converter = Converter()
+    converter.add_rate("oz", "g", 28)
+    total = grams(200).plus(ounces(1))
+    assert converter.reduce(total, "g") == grams(228)
+
+def test_ounces_reduce_to_grams():
+    converter = Converter()
+    converter.add_rate("oz", "g", 28)
+    assert converter.reduce(ounces(2), "g") == grams(56)
