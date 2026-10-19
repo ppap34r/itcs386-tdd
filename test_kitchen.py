@@ -99,3 +99,10 @@ def test_ounces_reduce_to_grams():
     converter = Converter()
     converter.add_rate("oz", "g", 28)
     assert converter.reduce(ounces(2), "g") == grams(56)
+
+# A8: (200 g + 1 oz) × 2
+def test_sum_times():
+    converter = Converter()
+    converter.add_rate("oz", "g", 28)
+    total = grams(200).plus(ounces(1)).times(2)
+    assert converter.reduce(total, "g") == grams(456)
